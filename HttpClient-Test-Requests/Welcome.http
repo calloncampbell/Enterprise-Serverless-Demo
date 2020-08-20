@@ -1,0 +1,8 @@
+### File Variables
+
+@hostname = localhost
+@port = 7071
+@host = {{hostname}}:{{port}}
+
+### Welcome 
+GET http://{{host}}/api/Welcome

@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnterpriseServerless.FunctionApp", "EnterpriseServerless.FunctionApp\EnterpriseServerless.FunctionApp.csproj", "{0A7417C5-3459-45F2-96BF-16D1EA4FD112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnterpriseServerless.FunctionApp", "EnterpriseServerless.FunctionApp\EnterpriseServerless.FunctionApp.csproj", "{0A7417C5-3459-45F2-96BF-16D1EA4FD112}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Repository Files", "_Repository Files", "{29733DC1-3A96-4008-8139-E076932531D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A4A0C842-50A3-4E7B-8B95-FDB5222A5FC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Function Apps", "1. Function Apps", "{A3B8340D-CC9B-4DCB-96E5-C45C46051194}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_httpClient Test Requests", "_httpClient Test Requests", "{5A160038-ACA9-4704-9B5F-ED63567C1537}"
+	ProjectSection(SolutionItems) = preProject
+		HttpClient-Test-Requests\StartCall.http = HttpClient-Test-Requests\StartCall.http
+		HttpClient-Test-Requests\Welcome.http = HttpClient-Test-Requests\Welcome.http
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +30,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0A7417C5-3459-45F2-96BF-16D1EA4FD112} = {A3B8340D-CC9B-4DCB-96E5-C45C46051194}
+		{A4A0C842-50A3-4E7B-8B95-FDB5222A5FC4} = {29733DC1-3A96-4008-8139-E076932531D1}
+		{5A160038-ACA9-4704-9B5F-ED63567C1537} = {A3B8340D-CC9B-4DCB-96E5-C45C46051194}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0C0EFEB5-6452-4825-9C93-4F1AAB312A5A}

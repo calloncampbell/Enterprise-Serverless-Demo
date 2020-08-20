@@ -1,0 +1,12 @@
+### File Variables
+
+@hostname = localhost
+@port = 7071
+@host = {{hostname}}:{{port}}
+
+### StartCall
+POST http://{{host}}/api/StartCall
+Content-Type: application/json
+
+Called=%2B16083363445&ToState=Ontario&CallerCountry=CA&Direction=inbound&CallerState=ON&ToZip=&CallSid=CA82815a57d5e84ca282036015838b68eb&To=%2B15598408804&CallerZip=L6H+7K1&ToCountry=CA&ApiVersion=2010-04-01&CalledZip=&CalledCity=&CallStatus=ringing&AddOns=%7B%22status%22%3A%22successful%22%2C%22message%22%3Anull%2C%22code%22%3Anull%2C%22results%22%3A%7B%7D%7D&From=%2B14163579114&AccountSid=ACd989ec6e704da25ec94dee4bcdbf121a&CalledCountry=CA&CallerCity=OAKVILLE&Caller=%2B14163579114&FromCountry=CA&ToCity=&FromCity=OAKVILLE&CalledState=Ontario&FromZip=L6H+7K1&FromState=ON
+
