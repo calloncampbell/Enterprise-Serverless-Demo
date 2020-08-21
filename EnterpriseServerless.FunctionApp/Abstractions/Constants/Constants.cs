@@ -11,10 +11,10 @@ namespace EnterpriseServerless.FunctionApp.Abstractions.Constants
             public const int DefaultTimeToLive = -1;
 
             public const string Connection = "CosmosDB-ConnectionStringReadWrite";
-            public const string DatabaseId = "Calls";
+            public const string DatabaseId = "EnterpriseServerless01";
 
             public const string CallLogCollection = "CallLog";
-            public const string NumberDetailsCollection = "NumberDetails";
+            public const string NumberRoutesCollection = "NumberRoutes";
         }
     }
 }

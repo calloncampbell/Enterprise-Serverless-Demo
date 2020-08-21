@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using EnterpriseServerless.FunctionApp.Abstractions.Interfaces;
+using System.Net.Mime;
 
 namespace EnterpriseServerless.FunctionApp
 {
@@ -22,7 +23,7 @@ namespace EnterpriseServerless.FunctionApp
 
         [FunctionName(nameof(StartCall))]
         public async Task<IActionResult> RunAsync(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string requestBody = string.Empty;
@@ -33,9 +34,15 @@ namespace EnterpriseServerless.FunctionApp
 
             log.LogInformation($"HTTP trigger function processed a request for StartCall: {requestBody}");
 
+            _startCallService.SetHostUrl(req.Host.Value, req.IsHttps);
             var result = await _startCallService.GetNumberDetailsAsync(requestBody);
 
-            return new OkObjectResult(result);
+            return new ContentResult
+            {
+                Content = result,
+                ContentType = MediaTypeNames.Application.Xml,
+                StatusCode = 200
+            };
         }
     }
 }

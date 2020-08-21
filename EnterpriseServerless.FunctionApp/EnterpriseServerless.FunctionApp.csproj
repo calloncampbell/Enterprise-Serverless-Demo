@@ -13,7 +13,7 @@
     <FileVersion>1.0.0.0</FileVersion>
     <PackageReleaseNotes>      
     </PackageReleaseNotes>
-    <PackageTags>Azure Functions, Durable Functions, Premium Functions, API Management, Traffic Manager, Azure Storage, Cosmos DB, App Service, Application Insights, Data Factory, Azure DevOps, Azure Pipelines</PackageTags>
+    <PackageTags>Azure, Azure Functions, Durable Functions, Premium Functions, API Management, Traffic Manager, Azure Storage, Azure App Configuration, Cosmos DB, App Service, Application Insights, Azure Data Factory, Azure DevOps, Azure Pipelines, Twilio, Serverless, Scalale, High Availability, Resiliency</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
@@ -25,7 +25,8 @@
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.11.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="3.0.7" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />    
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
+    <PackageReference Include="Twilio" Version="5.45.2" />
   </ItemGroup>
   <ItemGroup>
     <None Update="proxies.json">
@@ -38,5 +39,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ResponseModels\" />
   </ItemGroup>
 </Project>
