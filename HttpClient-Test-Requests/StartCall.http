@@ -22,6 +22,6 @@ Content-Length: 317
 
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Play>http://localhost:7071/api/incall?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg</Play>
+  <Play>http://localhost:7071/api/mediafile?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg</Play>
   <Dial action="http://localhost:7071/api/postcall?cd=cz0zMTM1OTk4JnNyPTMxNjIwMTkmY2Y9Mw==" timeLimit="60">14163579114</Dial>
 </Response>

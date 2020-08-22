@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Function Apps", "1. Func
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_httpClient Test Requests", "_httpClient Test Requests", "{5A160038-ACA9-4704-9B5F-ED63567C1537}"
 	ProjectSection(SolutionItems) = preProject
+		HttpClient-Test-Requests\MedieFile.http = HttpClient-Test-Requests\MedieFile.http
 		HttpClient-Test-Requests\StartCall.http = HttpClient-Test-Requests\StartCall.http
 		HttpClient-Test-Requests\Welcome.http = HttpClient-Test-Requests\Welcome.http
 	EndProjectSection
