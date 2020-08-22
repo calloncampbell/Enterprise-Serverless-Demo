@@ -7,29 +7,50 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using EnterpriseServerless.FunctionApp.Abstractions.Interfaces;
+using EnterpriseServerless.FunctionApp.Abstractions.Constants;
+using System.Net.Mime;
 
 namespace EnterpriseServerless.FunctionApp
 {
-    public static class PostCall
+    public class PostCall
     {
+        private readonly IPostCallService _postCallService;
+
+        public PostCall(IPostCallService postCallService)
+        {
+            _postCallService = postCallService;
+        }
+
         [FunctionName(nameof(PostCall))]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        public async Task<IActionResult> RunAsync(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            [Queue("%ProcessCallQueueName%", Connection = Constants.StorageAccount.ConnectionString)] ICollector<string> postCallQueue,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation($"HTTP trigger function processed a request for PostCall, QueryString: {req.QueryString.Value}");
 
-            string name = req.Query["name"];
+            try
+            {
+                string result = await _postCallService.ProcessPostCallAsync(req);
+                if (!string.IsNullOrWhiteSpace(result))
+                {
+                    log.LogInformation($"PostCall: Creating CloudQueueMessage for '{result}'");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+                    postCallQueue.Add(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, $"PostCall: function exception for {req.QueryString.Value}");
+            }
 
-            string responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
-
-            return new OkObjectResult(responseMessage);
+            return new ContentResult
+            {
+                Content = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><Response></Response>",
+                ContentType = MediaTypeNames.Text.Xml,
+                StatusCode = 200
+            };
         }
     }
 }

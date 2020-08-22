@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static EnterpriseServerless.FunctionApp.Abstractions.Constants.Constants;
@@ -53,6 +54,52 @@ namespace EnterpriseServerless.FunctionApp.Services
                         _logger.LogError($"Failed to create CallLog for callSid: '{item.id}' from stream. Status code: {responseMessage.StatusCode} Message: {responseMessage.ErrorMessage}");
                     }
                 }
+            }
+        }
+
+        public async Task UpdateCallLogAsync(string callSid)
+        {
+            _logger.LogInformation($"Updating CallLog for callSid: '{callSid}'");
+
+            try
+            {
+                var container = _cosmosClient.GetContainer(CosmosDb.DatabaseId, CosmosDb.CallLogCollection);
+                ItemResponse<CallLog> response = await container.ReadItemAsync<CallLog>(
+                    id: callSid,
+                    partitionKey: new PartitionKey(callSid));
+#if DEBUG
+                _logger.LogDebug($"READ Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics.ToString()}");
+#endif
+
+#if DEBUG
+                if (response.Diagnostics != null)
+                {
+                    _logger.LogDebug($"READ Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics.ToString()}");
+                }
+#endif
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    _logger.LogDebug("CallLog details for '{0}' not found", callSid);
+                    return;
+                }
+
+                var callLog = (CallLog)response;
+                callLog.endTime = DateTime.UtcNow;
+                callLog.lastUpdateDate = DateTime.UtcNow;
+
+                // Save document
+                response = await container.UpsertItemAsync(partitionKey: new PartitionKey(callLog.callSid), item: callLog);
+                callLog = response.Resource;
+
+                _logger.LogInformation($"Updated CallLog for callSid: '{callLog.callSid}'. StatusCode of this operation: {response.StatusCode}");
+#if DEBUG
+                _logger.LogDebug($"UPSERT Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics.ToString()}");
+#endif
+            }
+            catch (CosmosException ex)
+            {
+                _logger.LogError(ex, $"UpdateCallLogAsync error for callSid: '{callSid}'");
+                throw;
             }
         }
 

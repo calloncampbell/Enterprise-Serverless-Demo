@@ -1,11 +1,17 @@
 {
-    "version": "2.0",
-    "logging": {
-        "applicationInsights": {
-            "samplingExcludedTypes": "Request",
-            "samplingSettings": {
-                "isEnabled": true
-            }
-        }
+  "version": "2.0",
+  "logging": {
+    "applicationInsights": {
+      "samplingExcludedTypes": "Request",
+      "samplingSettings": {
+        "isEnabled": true
+      }
+    },
+    "logLevel": {
+      "TwilioIntegration.FunctionApp.Services.CallLoggingService": "Information",
+      "TwilioIntegration.FunctionApp.Services.MediaFileService": "Information",
+      "TwilioIntegration.FunctionApp.Services.PostCallService": "Information",
+      "TwilioIntegration.FunctionApp.Services.StartCallService": "Information"
     }
+  }
 }

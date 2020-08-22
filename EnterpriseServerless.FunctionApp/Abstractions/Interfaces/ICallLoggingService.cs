@@ -7,5 +7,6 @@ namespace EnterpriseServerless.FunctionApp.Abstractions.Interfaces
     public interface ICallLoggingService
     {
         Task CreateCallLogAsync(CallLog item);
+        Task UpdateCallLogAsync(string callSid);
     }
 }

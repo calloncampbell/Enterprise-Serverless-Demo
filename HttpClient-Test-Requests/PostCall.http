@@ -1,0 +1,10 @@
+### File Variables
+
+@hostname = localhost
+@port = 7071
+@host = {{hostname}}:{{port}}
+
+### Request: StartCall
+POST http://{{host}}/api/PostCall?cd=cz05ODQxODg4JnNyPTMyMTY2MTc1JmNmPTA=
+
+AccountSid=ACd989ec6e704da25ec94dee4bcdbf121a&ApiVersion=2010-04-01&CallSid=CA82815a57d5e84ca282036015838b68eb&CallStatus=completed&Called=%2B16474242270&CalledCity=&CalledCountry=US&CalledState=MA&CalledZip=&Caller=%2B14163579114&CallerCity=TORONTO&CallerCountry=CA&CallerState=ON&CallerZip=&DialCallDuration=17&DialCallSid=CA786779cc8aa08d4ffb7fb2a2299db671&DialCallStatus=completed&Direction=inbound&From=%2B14163579114&FromCity=TORONTO&FromCountry=CA&FromState=ON&FromZip=&To=%2B18579307961&ToCity=&ToCountry=US&ToState=MA&ToZip=

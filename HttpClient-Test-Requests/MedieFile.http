@@ -6,7 +6,7 @@
 
 
 ### MediaFile 1
-GET http://localhost:7071/api/mediafile?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg&tenantId=1234
+GET http://{{host}}/api/mediafile?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg&tenantId=1234
 
 ### MediaFile 2
-GET http://localhost:7071/api/mediafile?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg&amp;tenantId=1234
+GET http://{{host}}/api/mediafile?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg&amp;tenantId=1234

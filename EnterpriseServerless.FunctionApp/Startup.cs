@@ -45,7 +45,7 @@ namespace EnterpriseServerless.FunctionApp
             builder.Services.AddSingleton<IStartCallService, StartCallService>();
             builder.Services.AddSingleton<ICallLoggingService, CallLoggingService>();
             builder.Services.AddSingleton<IMediaFileService, MediaFileService>();
-            //builder.Services.AddSingleton<IPostCallService, PostCallService>();
+            builder.Services.AddSingleton<IPostCallService, PostCallService>();
         }
     }
 }
