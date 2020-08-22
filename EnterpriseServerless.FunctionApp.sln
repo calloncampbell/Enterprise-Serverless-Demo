@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Repository Files", "_Repository Files", "{29733DC1-3A96-4008-8139-E076932531D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A4A0C842-50A3-4E7B-8B95-FDB5222A5FC4}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Simulate Primiary Storage Failover.md = docs\Simulate Primiary Storage Failover.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Function Apps", "1. Function Apps", "{A3B8340D-CC9B-4DCB-96E5-C45C46051194}"
 EndProject
