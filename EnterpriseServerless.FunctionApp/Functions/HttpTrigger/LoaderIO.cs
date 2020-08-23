@@ -27,7 +27,7 @@ namespace EnterpriseServerless.FunctionApp
                 .AddEnvironmentVariables()
                 .Build();
 
-            string loaderIOVerificationToken = config["LoaderIO-VerificationToken"];
+            string loaderIOVerificationToken = config["LoaderIO_VerificationToken"];
             string responseMessage = string.IsNullOrEmpty(loaderIOVerificationToken)
                 ? "This HTTP triggered function executed successfully, however its missing the verification token."
                 : loaderIOVerificationToken;
