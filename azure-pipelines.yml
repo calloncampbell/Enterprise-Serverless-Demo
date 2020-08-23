@@ -26,4 +26,5 @@ steps:
   displayName: 'Publish artifacts'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
+    publishWebProjects: false
   condition: succeededOrFailed()
