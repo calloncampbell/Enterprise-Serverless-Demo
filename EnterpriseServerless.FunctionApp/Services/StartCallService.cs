@@ -122,7 +122,7 @@ namespace EnterpriseServerless.FunctionApp.Services
                     return CallResponseService.HangupResponse();
                 }
 
-                await LogCallAsync(call, CallStatus.Accepted);
+                await LogCallAsync(call, CallStatus.Accepted, true);
                 return HandleBasicRoute(numberRouteInfo.routeDetails.routes[0]);
             }
             catch (Exception ex)
@@ -188,9 +188,15 @@ namespace EnterpriseServerless.FunctionApp.Services
             {
                 if (item.StartsWith("CallSid="))
                 {
-                    ret.CallSid = string.Compare(item.Substring(8), "LOADTEST", true) != 0 
-                        ? item.Substring(8) 
-                        : Guid.NewGuid().ToString();
+                    if (string.Compare(item.Substring(8), "LOADTEST", true) == 0)
+                    {
+                        ret.CallSid = Guid.NewGuid().ToString();
+                        ret.IsLoadTest = true;
+                    }
+                    else
+                    {
+                        ret.CallSid = item.Substring(8);
+                    }                    
 
                     found += 1;
                 }
@@ -224,7 +230,7 @@ namespace EnterpriseServerless.FunctionApp.Services
             return ret;
         }
 
-        private async Task LogCallAsync(IncomingCall call, CallStatus status)
+        private async Task LogCallAsync(IncomingCall call, CallStatus status, bool isLoadTest = false)
         {
             var callLogMessage = new CallLog(call.CallSid)
             {
@@ -234,6 +240,11 @@ namespace EnterpriseServerless.FunctionApp.Services
                 statusName = status.ToString(),
                 routeKey = string.Empty
             };
+
+            if (isLoadTest)
+            {
+                callLogMessage.ttl = 300;
+            }
 
             await _callLoggingService.CreateCallLogAsync(callLogMessage);
         }

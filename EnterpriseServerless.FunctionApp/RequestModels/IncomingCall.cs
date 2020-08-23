@@ -10,5 +10,6 @@ namespace EnterpriseServerless.FunctionApp.RequestModels
         public string From { get; set; }
         public string To { get; set; }
         public string Language { get; set; }
+        public bool IsLoadTest { get; set; }
     }
 }
