@@ -6,7 +6,7 @@ trigger:
       - feature/*
 
 pool:
-  name: 'default'
+  vmImageName: 'vs2017-win2016'
 
 steps:
 - task: DotNetCoreCLI@2
