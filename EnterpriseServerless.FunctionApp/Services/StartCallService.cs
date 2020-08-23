@@ -265,7 +265,7 @@ namespace EnterpriseServerless.FunctionApp.Services
                     var param = numInfo.callRecordNotificationFileType == 6
                         ? "mrsid"
                         : "mrid";
-                    play = new TwilioPlay { Loop = 1, Text = $"{_mediaFileUrl}/api/mediafile?{param}={Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(fileLink))}" };
+                    play = new TwilioPlay { Loop = 1, Text = $"{_mediaFileUrl}/api/mediafile?{param}={Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(fileLink))}&amp;tenantId=1234" };
                 }
                 ret.Saying = saying;
                 ret.Play = play;
