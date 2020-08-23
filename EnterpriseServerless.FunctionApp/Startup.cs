@@ -35,7 +35,7 @@ namespace EnterpriseServerless.FunctionApp
             builder.Services.AddSingleton((s) =>
             {
                 CosmosClientBuilder configurationBuilder = new CosmosClientBuilder(configuration[Constants.CosmosDb.Connection])
-                    .WithApplicationRegion(Regions.WestUS2);
+                    .WithApplicationRegion(regionName);
 
                 return configurationBuilder.Build();
             });

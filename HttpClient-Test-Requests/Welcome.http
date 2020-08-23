@@ -6,3 +6,7 @@
 
 ### Welcome 
 GET http://{{host}}/api/Welcome
+
+
+### Welcome 
+GET https://func-enterpriseserverless-01-eastus2.azurewebsites.net/api/Welcome

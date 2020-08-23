@@ -16,7 +16,7 @@
     <PackageTags>Azure, Azure Functions, Durable Functions, Premium Functions, API Management, Traffic Manager, Azure Storage, Azure App Configuration, Cosmos DB, App Service, Application Insights, Azure Data Factory, Azure DevOps, Azure Pipelines, Twilio, Serverless, Scalale, High Availability, Resiliency</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
