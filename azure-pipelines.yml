@@ -1,0 +1,29 @@
+trigger:
+  branches:
+    include:
+      - master
+      - develop
+      - feature/*
+
+pool:
+  name: 'default'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'Build Function App'
+  inputs:
+    projects: 'EnterpriseServerless.FunctionApp/*.csproj'
+    arguments: '--output publish_output/EnterpriseServerless.FunctionApp/ --configuration Release'
+
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
+  inputs:
+    rootFolderOrFile: 'publish_output/EnterpriseServerless.FunctionApp'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/EnterpriseServerless.FunctionApp.$(Build.BuildId).zip'
+    includeRootFolder: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
