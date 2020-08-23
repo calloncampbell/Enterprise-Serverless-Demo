@@ -12,7 +12,6 @@ Called=%2B16474242270&ToState=Ontario&CallerCountry=CA&Direction=inbound&CallerS
 
 
 ### Sample response:
-
 HTTP/1.1 200 OK
 Connection: close
 Date: Fri, 21 Aug 2020 05:25:28 GMT
@@ -25,3 +24,10 @@ Content-Length: 317
   <Play>http://localhost:7071/api/mediafile?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg</Play>
   <Dial action="http://localhost:7071/api/postcall?cd=cz0zMTM1OTk4JnNyPTMxNjIwMTkmY2Y9Mw==" timeLimit="60">14163579114</Dial>
 </Response>
+
+
+### Request: StartCall 2
+POST http://func-enterpriseserverless-01-eastus2.azurewebsites.net/api/StartCall
+Content-Type: application/json
+
+Called=%2B16474242270&ToState=Ontario&CallerCountry=CA&Direction=inbound&CallerState=ON&ToZip=&CallSid=LOADTEST&To=%2B16474242270&CallerZip=L6H+7K1&ToCountry=CA&ApiVersion=2010-04-01&CalledZip=&CalledCity=&CallStatus=ringing&AddOns=%7B%22status%22%3A%22successful%22%2C%22message%22%3Anull%2C%22code%22%3Anull%2C%22results%22%3A%7B%7D%7D&From=%2B14163579114&AccountSid=ACd989ec6e704da25ec94dee4bcdbf121a&CalledCountry=CA&CallerCity=OAKVILLE&Caller=%2B14163579114&FromCountry=CA&ToCity=&FromCity=OAKVILLE&CalledState=Ontario&FromZip=L6H+7K1&FromState=ON

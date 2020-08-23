@@ -188,7 +188,10 @@ namespace EnterpriseServerless.FunctionApp.Services
             {
                 if (item.StartsWith("CallSid="))
                 {
-                    ret.CallSid = item.Substring(8);
+                    ret.CallSid = string.Compare(item.Substring(8), "LOADTEST", true) == 0 
+                        ? item.Substring(8) 
+                        : Guid.NewGuid().ToString();
+
                     found += 1;
                 }
                 else if (item.StartsWith("From="))

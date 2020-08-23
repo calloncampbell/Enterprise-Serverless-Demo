@@ -1,0 +1,9 @@
+### File Variables
+
+@host = func-enterpriseserverless-01-eastus2.azurewebsites.net
+
+### LoaderIO Function
+GET http://{{host}}/api/loaderio
+
+### LoaderIO Proxy 
+GET http://{{host}}/loaderio-df1946f8526b3e4b36ac07024a19b627/
