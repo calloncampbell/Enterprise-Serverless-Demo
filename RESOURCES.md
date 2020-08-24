@@ -56,8 +56,17 @@ https://docs.microsoft.com/en-us/azure/architecture/best-practices/monitoring
 
 ## Microsoft Learn
 
-Microsoft Learn: Create serverless applications - 
+Create serverless applications - 
 https://docs.microsoft.com/en-us/learn/paths/create-serverless-applications/
+
+Build Serverless APIs with Azure Functions - 
+https://docs.microsoft.com/en-us/learn/modules/build-api-azure-functions/
+
+Create a long-running serverless workflow with Durable Functions - 
+https://docs.microsoft.com/en-us/learn/modules/create-long-running-serverless-workflow-with-durable-functions/
+
+Architect API integration in Azure - 
+https://docs.microsoft.com/en-us/learn/paths/architect-api-integration/
 
 
 ## Products / Services
