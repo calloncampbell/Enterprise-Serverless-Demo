@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnterpriseServerless.FunctionApp", "EnterpriseServerless.FunctionApp\EnterpriseServerless.FunctionApp.csproj", "{0A7417C5-3459-45F2-96BF-16D1EA4FD112}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Repository Files", "_Repository Files", "{29733DC1-3A96-4008-8139-E076932531D1}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+		README.md = README.md
+		RESOURCES.md = RESOURCES.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A4A0C842-50A3-4E7B-8B95-FDB5222A5FC4}"
 	ProjectSection(SolutionItems) = preProject
