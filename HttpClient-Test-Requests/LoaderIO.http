@@ -8,4 +8,5 @@ GET http://{{host}}/api/loaderio
 ### LoaderIO Proxy 
 GET http://{{host}}/loaderio-3412f32d125578140ea04b070e013b0a/
 
+#current loaderio-3412f32d125578140ea04b070e013b0a
 #old loaderio-df1946f8526b3e4b36ac07024a19b627
