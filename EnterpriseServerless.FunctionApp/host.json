@@ -8,10 +8,10 @@
       }
     },
     "logLevel": {
-      "TwilioIntegration.FunctionApp.Services.CallLoggingService": "Information",
-      "TwilioIntegration.FunctionApp.Services.MediaFileService": "Information",
-      "TwilioIntegration.FunctionApp.Services.PostCallService": "Information",
-      "TwilioIntegration.FunctionApp.Services.StartCallService": "Information"
+      "EnterpriseServerless.FunctionApp.Services.CallLoggingService": "Information",
+      "EnterpriseServerless.FunctionApp.Services.MediaFileService": "Information",
+      "EnterpriseServerless.FunctionApp.Services.PostCallService": "Information",
+      "EnterpriseServerless.FunctionApp.Services.StartCallService": "Information"
     }
   }
 }
