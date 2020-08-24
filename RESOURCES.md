@@ -71,47 +71,47 @@ https://docs.microsoft.com/en-us/learn/paths/architect-api-integration/
 
 ## Products / Services
 
-Visual Studio: The integrated development environment (IDE) designed for creating powerful, scalable applications for Azure - 
+**Visual Studio**: The integrated development environment (IDE) designed for creating powerful, scalable applications for Azure - 
 https://azure.microsoft.com/en-us/products/visual-studio/
 
-Visual Studio Code: A powerful, lightweight free code editor with integrated tools to easily deploy your code to Azure - 
+**Visual Studio Code**: A powerful, lightweight free code editor with integrated tools to easily deploy your code to Azure - 
 https://azure.microsoft.com/en-us/products/visual-studio-code/
 
-Azure Functions: More than just event-driven serverless compute - 
+**Azure Functions**: More than just event-driven serverless compute - 
 https://azure.microsoft.com/en-us/services/functions/
 
-Azure Cosmos DB: Fast NoSQL database with open APIs for any scale - 
+**Azure Cosmos DB**: Fast NoSQL database with open APIs for any scale - 
 https://azure.microsoft.com/en-us/services/cosmos-db/
 
-Traffic Manager: Route incoming traffic for high performance and availability - 
+**Traffic Manager**: Route incoming traffic for high performance and availability - 
 https://azure.microsoft.com/en-us/services/traffic-manager/
 
-Blog Storage: Massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance computing, and machine learning - 
+**Blog Storage**: Massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance computing, and machine learning - 
 https://azure.microsoft.com/en-us/services/storage/blobs/
 
-Queue Storage: Durable queues for large-volume cloud services - 
+**Queue Storage**: Durable queues for large-volume cloud services - 
 https://azure.microsoft.com/en-us/services/storage/queues/
 
-API Management: Hybrid, multi-cloud management platform for APIs across all environments - 
+**API Management**: Hybrid, multi-cloud management platform for APIs across all environments - 
 https://azure.microsoft.com/en-us/services/api-management/
 
-Data Factory: Hybrid data integration service that simplifies ETL at scale - 
+**Data Factory**: Hybrid data integration service that simplifies ETL at scale - 
 https://azure.microsoft.com/en-us/services/data-factory/
 
-Logic Apps: Quickly build powerful integration solutions - 
+**Logic Apps**: Quickly build powerful integration solutions - 
 https://azure.microsoft.com/en-us/services/logic-apps/
 
-Event Grid: Get reliable event delivery at massive scale - 
+**Event Grid**: Get reliable event delivery at massive scale - 
 https://azure.microsoft.com/en-us/services/event-grid/
 
-App Configuration: Fast, scalable parameter storage for app configuration - 
+**App Configuration**: Fast, scalable parameter storage for app configuration - 
 https://azure.microsoft.com/en-us/services/app-configuration/
 
-Azure Monitor: Full observability into your applications, infrastructure, and network - 
+**Azure Monitor**: Full observability into your applications, infrastructure, and network - 
 https://azure.microsoft.com/en-us/services/monitor/
 
-Azure DevOps: Plan smarter, collaborate better, and ship faster with a set of modern dev services - 
-https://azure.microsoft.com/en-us/services/devops/
+**Azure Pipelines**: Continuously build, test, and deploy to any platform and cloud - 
+https://azure.microsoft.com/en-us/services/devops/pipelines/
 
-Twilio - Programmable Voice: Build conversations anywhere. Make, receive, and monitor calls around the world using the Voice API that developers rely on - 
+**Twilio - Programmable Voice**: Build conversations anywhere. Make, receive, and monitor calls around the world using the Voice API that developers rely on - 
 https://www.twilio.com/voice/
