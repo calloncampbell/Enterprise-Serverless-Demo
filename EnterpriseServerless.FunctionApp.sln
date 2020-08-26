@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_httpClient Test Requests",
 		HttpClient-Test-Requests\LoaderIO.http = HttpClient-Test-Requests\LoaderIO.http
 		HttpClient-Test-Requests\MedieFile.http = HttpClient-Test-Requests\MedieFile.http
 		HttpClient-Test-Requests\PostCall.http = HttpClient-Test-Requests\PostCall.http
+		HttpClient-Test-Requests\PostCallCleanupEternalOrchestrator.http = HttpClient-Test-Requests\PostCallCleanupEternalOrchestrator.http
 		HttpClient-Test-Requests\StartCall.http = HttpClient-Test-Requests\StartCall.http
 		HttpClient-Test-Requests\Welcome.http = HttpClient-Test-Requests\Welcome.http
 	EndProjectSection

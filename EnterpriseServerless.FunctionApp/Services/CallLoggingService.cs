@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace EnterpriseServerless.FunctionApp.Services
         private readonly ILogger<CallLoggingService> _logger;
         private readonly IConfigurationRoot _configuration;
         private static readonly JsonSerializer Serializer = new JsonSerializer();
+        private readonly int _checkMinuteInterval;
+        private readonly int _callLogDayRetension;
 
         public CallLoggingService(
             CosmosClient cosmosClient,
@@ -29,6 +32,9 @@ namespace EnterpriseServerless.FunctionApp.Services
             _cosmosClient = cosmosClient;
             _logger = log;
             _configuration = configuration;
+
+            _checkMinuteInterval = int.Parse(_configuration["Twilio-CheckMinuteInterval"] ?? "90");
+            _callLogDayRetension = int.Parse(_configuration["Twilio-CallLogDayRetension"] ?? "15");
         }
 
         public async Task CreateCallLogAsync(CallLog item)
@@ -64,17 +70,15 @@ namespace EnterpriseServerless.FunctionApp.Services
             try
             {
                 var container = _cosmosClient.GetContainer(CosmosDb.DatabaseId, CosmosDb.CallLogCollection);
+
+                // Read the item to see if it exists. Note ReadItemAsync will not throw an exception if an item does not exist. Instead, we check the StatusCode property off the response object.    
                 ItemResponse<CallLog> response = await container.ReadItemAsync<CallLog>(
                     id: callSid,
                     partitionKey: new PartitionKey(callSid));
 #if DEBUG
-                _logger.LogDebug($"READ Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics.ToString()}");
-#endif
-
-#if DEBUG
                 if (response.Diagnostics != null)
                 {
-                    _logger.LogDebug($"READ Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics.ToString()}");
+                    _logger.LogDebug($"READ Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics}");
                 }
 #endif
                 if (response.StatusCode == HttpStatusCode.NotFound)
@@ -93,12 +97,96 @@ namespace EnterpriseServerless.FunctionApp.Services
 
                 _logger.LogInformation($"Updated CallLog for callSid: '{callLog.callSid}'. StatusCode of this operation: {response.StatusCode}");
 #if DEBUG
-                _logger.LogDebug($"UPSERT Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics.ToString()}");
+                _logger.LogDebug($"UPSERT Diagnostics for UpdateCallLogAsync for callSid: '{callSid}': {response.Diagnostics}");
 #endif
             }
             catch (CosmosException ex)
             {
                 _logger.LogError(ex, $"UpdateCallLogAsync error for callSid: '{callSid}'");
+                throw;
+            }
+        }
+
+        public async Task<ICollection<CallLog>> GetCallLogsAsync()
+        {
+            try
+            {
+                var container = _cosmosClient.GetContainer(CosmosDb.DatabaseId, CosmosDb.CallLogCollection);
+
+                // Cosmos DB queries are case sensitive.
+                var query = @$"
+SELECT TOP 100 *
+FROM c 
+WHERE c.ttl = -1
+AND c.startTime < @dateInterval
+";
+
+                var dateInterval = $"{DateTime.UtcNow.AddMinutes(-_checkMinuteInterval)}";
+
+                QueryDefinition queryDefinition = new QueryDefinition(query)
+                    .WithParameter("@dateInterval", dateInterval);
+
+                List<CallLog> results = new List<CallLog>();
+                FeedIterator<CallLog> resultSetIterator = container.GetItemQueryIterator<CallLog>(queryDefinition);
+
+                while (resultSetIterator.HasMoreResults)
+                {
+                    FeedResponse<CallLog> response = await resultSetIterator.ReadNextAsync();
+                    results.AddRange(response);
+#if DEBUG
+                    if (response.Diagnostics != null)
+                    {
+                        Console.WriteLine($"\nQueryWithSqlParameters diagnostics: {response.Diagnostics}");
+                    }
+#endif
+                }
+
+                if (results.Any())
+                {
+                    _logger.LogInformation($"Call logs to process: {results.Count}");
+                }
+                return results;
+            }
+            catch (CosmosException ex)
+            {
+                _logger.LogError(ex, $"GetCallLogsAsync error");
+                throw;
+            }
+        }
+
+        public async Task DeleteCallLogAsync(string callSid)
+        {
+            _logger.LogInformation($"Deleting callSid: '{callSid}'");
+
+            try
+            {
+                var container = _cosmosClient.GetContainer(CosmosDb.DatabaseId, CosmosDb.CallLogCollection);
+
+                // Read the item to see if it exists. Note ReadItemAsync will not throw an exception if an item does not exist. Instead, we check the StatusCode property off the response object.    
+                ItemResponse<CallLog> response = await container.ReadItemAsync<CallLog>(
+                    id: callSid,
+                    partitionKey: new PartitionKey(callSid));
+
+#if DEBUG
+                if (response.Diagnostics != null)
+                {
+                    _logger.LogDebug($"READ Diagnostics for DeleteCallLogAsync for callSid: '{callSid}': {response.Diagnostics}");
+                }
+#endif
+
+                var callLog = (CallLog)response;
+                callLog.lastUpdateDate = DateTime.UtcNow;
+                callLog.ttl = 60 * 60 * 24 * _callLogDayRetension;
+
+                // Save document
+                response = await container.UpsertItemAsync(partitionKey: new PartitionKey(callLog.callSid), item: callLog);
+                callLog = response.Resource;
+
+                _logger.LogInformation($"Updated CallLog for callSid: '{callLog.callSid}', enabled TTL for {_callLogDayRetension} days. StatusCode of this operation: {response.StatusCode}");
+            }
+            catch (CosmosException ex)
+            {
+                _logger.LogError(ex, $"DeleteCallLogAsync error for callSid: '{callSid}'");
                 throw;
             }
         }

@@ -1,0 +1,43 @@
+### File Variables
+
+@hostname = localhost
+@port = 7071
+@host = {{hostname}}:{{port}}
+
+### Start Durable Function
+@instanceId = 100
+
+POST https://{{host}}/api/orchestrators/PostCallCleanupEternalOrchestrator/{{instanceId}}
+
+
+### Get Status of Running Durable Function
+@taskHub = TwilioPostCallCleanup-DEV
+@code = WO1BF30n4xKj2Q1AXs8WT/TOiDDG8ZYUeqSRMLDHvRQq4Pk2XY9Peg==
+
+GET https://{{host}}/runtime/webhooks/durabletask/instances/{{instanceId}}
+    ?taskHub={{taskHub}}
+    &connection=Storage
+    &code={{code}}
+    &showHistory=true
+
+
+### Terminating a Running Durable Function
+POST https://{{host}}/runtime/webhooks/durabletask/instances/{{instanceId}}/terminate
+    ?reason=test
+    &taskHub={{taskHub}}
+    &connection=Storage
+    &code={{code}}
+
+
+### Purge History for Terminated Durable Function
+DELETE https://{{host}}/runtime/webhooks/durabletask/instances/{{instanceId}}
+    ?taskHub={{taskHub}}
+    &connection=Storage
+    &code={{code}}
+
+
+### Get running instances
+GET https://{{host}}/runtime/webhooks/durableTask/instances
+    ?taskHub={{taskHub}}
+    &connection=Storage
+    &code={{code}}
