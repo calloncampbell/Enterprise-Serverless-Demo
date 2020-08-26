@@ -14,6 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Repository Files", "_Repos
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A4A0C842-50A3-4E7B-8B95-FDB5222A5FC4}"
 	ProjectSection(SolutionItems) = preProject
+		docs\Cosmos DB Query Optimization.md = docs\Cosmos DB Query Optimization.md
+		docs\GetItemQueryIterator.CosmosDb-Diagnostics.json = docs\GetItemQueryIterator.CosmosDb-Diagnostics.json
+		docs\ReadItemAsync.CosmosDb-Diagnostics.json = docs\ReadItemAsync.CosmosDb-Diagnostics.json
 		docs\Simulate Primiary Storage Failover.md = docs\Simulate Primiary Storage Failover.md
 	EndProjectSection
 EndProject

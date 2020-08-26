@@ -5,7 +5,9 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,10 +18,18 @@ namespace EnterpriseServerless.FunctionApp
 {
     public class Startup : FunctionsStartup
     {
-        private static IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(Environment.CurrentDirectory)
-            .AddEnvironmentVariables()
-            .Build();
+        private static IConfigurationRoot Configuration { get; set; }
+        public IConfigurationBuilder ConfigurationBuilder { get; set; }
+        private static IConfigurationRefresher ConfigurationRefresher { set; get; }
+
+        public Startup()
+        {
+            ConfigurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(Environment.CurrentDirectory)
+                .AddEnvironmentVariables();
+
+            Configuration = ConfigurationBuilder.Build();
+        }
 
         public override void Configure(IFunctionsHostBuilder builder)
         {
@@ -34,14 +44,34 @@ namespace EnterpriseServerless.FunctionApp
             // Optimize for preferred geo-region 
             builder.Services.AddSingleton((s) =>
             {
-                CosmosClientBuilder configurationBuilder = new CosmosClientBuilder(configuration[Constants.CosmosDb.Connection])
+                CosmosClientBuilder configurationBuilder = new CosmosClientBuilder(Configuration[Constants.CosmosDb.Connection])
                     .WithApplicationRegion(regionName);
 
                 return configurationBuilder.Build();
             });
 
+            // Load configuration from Azure App Configuration
+            ConfigurationBuilder.AddAzureAppConfiguration(options =>
+            {
+                // Use ".Connect(...)" for connection string, or use ".ConnectWithManagedIdentity(...) for managed identity"
+                options.Connect(Environment.GetEnvironmentVariable("AzureAppConfigConnectionString"))
+                       // Load all keys that start with `EnterpriseServerless:`
+                       .Select("EnterpriseServerless:*")
+                       // Configure to reload configuration if the registered 'Sentinel' key is modified
+                       .ConfigureRefresh(refreshOptions =>
+                            refreshOptions.Register(key: "EnterpriseServerless:Sentinel", label: LabelFilter.Null, refreshAll: true)
+                                          .SetCacheExpiration(TimeSpan.FromSeconds(30))
+                       )
+                       // Indicate to load feature flags
+                       .UseFeatureFlags();
+                ConfigurationRefresher = options.GetRefresher();
+            });
+            Configuration = ConfigurationBuilder.Build();
+
             builder.Services.AddLogging();
-            builder.Services.AddSingleton(configuration);
+            builder.Services.AddSingleton(Configuration);
+            builder.Services.AddSingleton(ConfigurationRefresher);
+            builder.Services.AddFeatureManagement(Configuration);
             builder.Services.AddSingleton<IStartCallService, StartCallService>();
             builder.Services.AddSingleton<ICallLoggingService, CallLoggingService>();
             builder.Services.AddSingleton<IMediaFileService, MediaFileService>();

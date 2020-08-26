@@ -1,0 +1,72 @@
+{
+    "DiagnosticVersion": "2",
+    "Summary": {
+        "StartUtc": "2020-08-19T14:07:21.9601212Z",
+        "TotalElapsedTimeInMs": 696.6735,
+        "UserAgent": "cosmos-netstandard-sdk/3.11.0|3.11.2|03|X64|Microsoft Windows 10.0.18363|.NET Core 3.1.7|",
+        "TotalRequestCount": 1,
+        "FailedRequestCount": 0
+    },
+    "Context": [
+        {
+            "Id": "CreateQueryPipeline",
+            "ElapsedTimeInMs": 126.7636
+        },
+        {
+            "Id": "ServiceInterop",
+            "ElapsedTimeInMs": 61.0642
+        },
+        {
+            "PKRangeId": "0",
+            "StartUtc": "2020-08-19T14:07:22.1153616Z",
+            "QueryMetric": "totalExecutionTimeInMs=1.87;queryCompileTimeInMs=0.07;queryLogicalPlanBuildTimeInMs=0.03;queryPhysicalPlanBuildTimeInMs=0.06;queryOptimizationTimeInMs=0.00;VMExecutionTimeInMs=1.53;indexLookupTimeInMs=0.92;documentLoadTimeInMs=0.58;systemFunctionExecuteTimeInMs=0.00;userFunctionExecuteTimeInMs=0.00;retrievedDocumentCount=1;retrievedDocumentSize=1014;outputDocumentCount=1;outputDocumentSize=1063;writeOutputTimeInMs=0.00;indexUtilizationRatio=1.00",
+            "IndexUtilization": "",
+            "ClientCorrelationId": "c32c6cdd-949a-4b06-a80d-662cbf292c7a",
+            "Context": [
+                {
+                    "Id": "AggregatedClientSideRequestStatistics",
+                    "ContactedReplicas": [],
+                    "RegionsContacted": [
+                        "https://cosmos-enterprise-serverless-01-eastus2.documents.azure.com:443/"
+                    ],
+                    "FailedReplicas": []
+                },
+                {
+                    "Id": "Microsoft.Azure.Cosmos.Handlers.DiagnosticsHandler",
+                    "HandlerElapsedTimeInMs": 433.9052
+                },
+                {
+                    "Id": "SystemInfo",
+                    "CpuHistory": "(2020-08-19T14:07:07.4258527Z 15.000), (2020-08-19T14:07:21.2649010Z 18.750)"
+                },
+                {
+                    "Id": "Microsoft.Azure.Cosmos.Handlers.RetryHandler",
+                    "HandlerElapsedTimeInMs": 433.8895
+                },
+                {
+                    "Id": "Microsoft.Azure.Cosmos.Handlers.RouterHandler",
+                    "HandlerElapsedTimeInMs": 433.8045
+                },
+                {
+                    "Id": "Microsoft.Azure.Cosmos.Handlers.TransportHandler",
+                    "HandlerElapsedTimeInMs": 30.0241
+                },
+                {
+                    "Id": "Microsoft.Azure.Documents.ServerStoreModel",
+                    "ElapsedTimeInMs": 433.3766
+                },
+                {
+                    "Id": "StoreResponseStatistics",
+                    "StartTimeUtc": "2020-08-19T14:07:22.1194577Z",
+                    "ResponseTimeUtc": "2020-08-19T14:07:22.5391617Z",
+                    "ElapsedTimeInMs": 419.704,
+                    "ResourceType": "Document",
+                    "OperationType": "Query",
+                    "LocationEndpoint": "https://cosmos-enterprise-serverless-01-eastus2.documents.azure.com:443/",
+                    "ActivityId": "8ecc9334-3400-4f8f-acce-e84490ea1cf3",
+                    "StoreResult": "StorePhysicalAddress: rntbd://cdb-ms-prod-westus2-fd6.documents.azure.com:14209/apps/a5556683-236a-4be0-87da-4e9f2d118f97/services/096f81f6-6239-4ee3-a7d3-1ef7b9fe861c/partitions/90f96def-97db-48db-b727-f79ccfe02656/replicas/132414288146180507p/, LSN: 251, GlobalCommittedLsn: 0, PartitionKeyRangeId: 0, IsValid: True, StatusCode: 200, SubStatusCode: 0, RequestCharge: 2.84, ItemLSN: -1, SessionToken: 2#325#8=229, UsingLocalLSN: True, TransportException: null"
+                }
+            ]
+        }
+    ]
+}
