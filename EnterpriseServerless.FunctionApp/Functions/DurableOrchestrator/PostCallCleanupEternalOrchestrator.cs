@@ -80,25 +80,17 @@ namespace EnterpriseServerless.FunctionApp
         {
             try
             {
-                var parallelTasks = new List<Task<int>>();
+                //var parallelTasks = new List<Task<int>>();
 
                 // Get a list of N callLog items to process in parallel.
-                var workBatch = await context.CallActivityAsync<ICollection<CallLog>>("PostCallCleanupEternalOrchestrator_GetCallLog", null);
+                var workBatch = await context.CallActivityAsync<IList<CallLog>>("PostCallCleanupEternalOrchestrator_GetCallLog", null);
 
                 log.LogInformation($"PostCallCleanupEternalOrchestrator: WorkBatch items to process: {JsonConvert.SerializeObject(workBatch)}");
 
-                if (workBatch != null && workBatch.Any())
+                var tasks = new Task<CallLog>[workBatch.Count];
+                for (int i = 0; i < workBatch.Count; i++)
                 {
-                    foreach (var item in workBatch)
-                    {
-                        Task<int> task = context.CallActivityAsync<int>("PostCallCleanupEternalOrchestrator_PostCallCleanup", item);
-                        if (task == null)
-                        {
-                            log.LogError("task is null");
-                        }
-                        parallelTasks.Add(task);
-                    }
-                    await Task.WhenAll(parallelTasks);
+                    tasks[i] = context.CallActivityAsync<CallLog>("PostCallCleanupEternalOrchestrator_PostCallCleanup", workBatch[i]);
                 }
             }
             catch (Exception ex)
@@ -136,14 +128,16 @@ namespace EnterpriseServerless.FunctionApp
 
         [FunctionName("PostCallCleanupEternalOrchestrator_PostCallCleanup")]
         public async Task PostCallCleanupAsync(
-            [ActivityTrigger] CallLog call,
+            [ActivityTrigger] IDurableActivityContext context,
             ILogger log)
         {
             try
             {
-                log.LogInformation($"Starting function PostCallCleanupEternalOrchestrator_PostCallCleanup...processing callSid '{call.callSid}'");
-                
-                // TODO: Add logic to process the call detail data
+                log.LogInformation($"Starting function PostCallCleanupEternalOrchestrator_PostCallCleanup...");
+
+                var call = context.GetInput<CallLog>();
+
+                // TODO: Add logic to process the call detail data                
             }
             catch (Exception ex)
             {

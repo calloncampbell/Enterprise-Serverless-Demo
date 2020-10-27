@@ -80,7 +80,10 @@ namespace EnterpriseServerless.FunctionApp.Services
                     }
                 };
 
-                BlobClient blobClient = new BlobClient(_configuration[Constants.StorageAccount.ConnectionString], Constants.StorageAccount.TwilioMediaFilesBlobContainer, cloudFile, options);
+                BlobClient blobClient = new BlobClient(_configuration[Constants.StorageAccount.ConnectionString], 
+                    Constants.StorageAccount.TwilioMediaFilesBlobContainer, 
+                    cloudFile, 
+                    options);
 
                 try
                 {
