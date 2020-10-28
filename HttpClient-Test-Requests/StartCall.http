@@ -4,7 +4,7 @@
 @port = 7071
 @host = {{hostname}}:{{port}}
 
-### Request: StartCall
+### Request: StartCall 1
 POST http://{{host}}/api/StartCall
 Content-Type: application/json
 
@@ -14,20 +14,27 @@ Called=%2B16474242270&ToState=Ontario&CallerCountry=CA&Direction=inbound&CallerS
 ### Sample response:
 HTTP/1.1 200 OK
 Connection: close
-Date: Fri, 21 Aug 2020 05:25:28 GMT
+Date: Wed, 28 Oct 2020 02:06:23 GMT
 Content-Type: application/xml
 Server: Kestrel
-Content-Length: 317
+Content-Length: 385
 
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Play>http://localhost:7071/api/mediafile?mrid=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg</Play>
+  <Play>http://localhost:7071/api/mediafile?mediaFile=NTFhMWRlNDctNjgxZC00YzRlLTgzZjMtNGJiZjBjYTQ1ZTZhLURlZmF1bHRfTm90aWZ5Lndhdg&amp;mediaType=CallRecordNotificationFiles&amp;tenantId=1234</Play>
   <Dial action="http://localhost:7071/api/postcall?cd=cz0zMTM1OTk4JnNyPTMxNjIwMTkmY2Y9Mw==" timeLimit="60">14163579114</Dial>
 </Response>
 
 
 ### Request: StartCall 2
 POST http://func-enterpriseserverless-01-eastus2.azurewebsites.net/api/StartCall
+Content-Type: application/json
+
+Called=%2B16474242270&ToState=Ontario&CallerCountry=CA&Direction=inbound&CallerState=ON&ToZip=&CallSid=LOADTEST&To=%2B16474242270&CallerZip=L6H+7K1&ToCountry=CA&ApiVersion=2010-04-01&CalledZip=&CalledCity=&CallStatus=ringing&AddOns=%7B%22status%22%3A%22successful%22%2C%22message%22%3Anull%2C%22code%22%3Anull%2C%22results%22%3A%7B%7D%7D&From=%2B14163579114&AccountSid=ACd989ec6e704da25ec94dee4bcdbf121a&CalledCountry=CA&CallerCity=OAKVILLE&Caller=%2B14163579114&FromCountry=CA&ToCity=&FromCity=OAKVILLE&CalledState=Ontario&FromZip=L6H+7K1&FromState=ON
+
+
+### Request: StartCall 3
+POST https://fd-enterpriseserverless-01.azurefd.net/api/startcall
 Content-Type: application/json
 
 Called=%2B16474242270&ToState=Ontario&CallerCountry=CA&Direction=inbound&CallerState=ON&ToZip=&CallSid=LOADTEST&To=%2B16474242270&CallerZip=L6H+7K1&ToCountry=CA&ApiVersion=2010-04-01&CalledZip=&CalledCity=&CallStatus=ringing&AddOns=%7B%22status%22%3A%22successful%22%2C%22message%22%3Anull%2C%22code%22%3Anull%2C%22results%22%3A%7B%7D%7D&From=%2B14163579114&AccountSid=ACd989ec6e704da25ec94dee4bcdbf121a&CalledCountry=CA&CallerCity=OAKVILLE&Caller=%2B14163579114&FromCountry=CA&ToCity=&FromCity=OAKVILLE&CalledState=Ontario&FromZip=L6H+7K1&FromState=ON

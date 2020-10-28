@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using EnterpriseServerless.FunctionApp.Abstractions.Interfaces;
 using System.Net.Mime;
+using Microsoft.Extensions.Primitives;
+using System.Linq;
 
 namespace EnterpriseServerless.FunctionApp
 {
@@ -32,9 +34,22 @@ namespace EnterpriseServerless.FunctionApp
                 requestBody = await streamReader.ReadToEndAsync();
             }
 
-            log.LogInformation($"HTTP trigger function processed a request for StartCall: {requestBody}");
+            StringValues headerValues;
+            var host = string.Empty;
 
-            _startCallService.SetHostUrl(req.Host.Value, req.IsHttps);
+            if (req.Headers.TryGetValue("X-Forwarded-Host", out headerValues))
+            {
+                host = headerValues.FirstOrDefault();
+            }
+
+            if (string.IsNullOrWhiteSpace(host))
+            {
+                host = req.Host.Value;
+            }
+
+            log.LogInformation($"HTTP trigger function processed a request for StartCall - host: {host}, body: {requestBody}");
+
+            _startCallService.SetHostUrl(host, req.IsHttps);
             var result = await _startCallService.GetNumberDetailsAsync(requestBody);
 
             return new ContentResult

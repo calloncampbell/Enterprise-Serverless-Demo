@@ -72,6 +72,7 @@ namespace EnterpriseServerless.FunctionApp
             builder.Services.AddSingleton(Configuration);
             builder.Services.AddSingleton(ConfigurationRefresher);
             builder.Services.AddFeatureManagement(Configuration);
+
             builder.Services.AddSingleton<IStartCallService, StartCallService>();
             builder.Services.AddSingleton<ICallLoggingService, CallLoggingService>();
             builder.Services.AddSingleton<IMediaFileService, MediaFileService>();

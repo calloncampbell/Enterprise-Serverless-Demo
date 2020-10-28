@@ -51,7 +51,7 @@ Now lets simulate a failure by creating an invalid static route. This will apply
     ```
 1. Copy to the IP address of your storage account to a text editor for later use.
 1. Next get the IP address of your local host, type `ipconfig` on the Windows command prompt, or `ifconfig` on the Linux terminal.
-1. To add a static route for a destination host, type the following command on a Windows command prompt or Linux terminal, replacing <destination_ip> with your storage account IP address and <gateway_ip> with your local host IP address.
+1. To add a static route for a destination host, type the following command on a Windows command prompt or Linux terminal, replacing <destination_ip> with your storage account IP address and <gateway_ip> with your local host IP address. If your testing this locally the <gateway_ip> should be your router IP = 192.168.0.1 for example.
 
     Linux:
     ```powershell

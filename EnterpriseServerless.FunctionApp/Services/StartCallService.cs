@@ -273,10 +273,10 @@ namespace EnterpriseServerless.FunctionApp.Services
                 else if (!string.IsNullOrEmpty(numInfo.callRecordNotificationFileId))
                 {
                     var fileLink = $"{numInfo.callRecordNotificationFileId}-{numInfo.callRecordNotificationFileName}";
-                    var param = numInfo.callRecordNotificationFileType == 6
-                        ? "mrsid"
-                        : "mrid";
-                    play = new TwilioPlay { Loop = 1, Text = $"{_mediaFileUrl}/api/mediafile?{param}={Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(fileLink))}&amp;tenantId=1234" };
+                    var mediaFileType = numInfo.callRecordNotificationFileType == 6
+                        ? "CallRecordStudyFiles"
+                        : "CallRecordNotificationFiles";
+                    play = new TwilioPlay { Loop = 1, Text = $"{_mediaFileUrl}/api/mediafile?mediaFile={Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(fileLink))}&amp;mediaType={mediaFileType}&amp;tenantId=1234" };
                 }
                 ret.Saying = saying;
                 ret.Play = play;
