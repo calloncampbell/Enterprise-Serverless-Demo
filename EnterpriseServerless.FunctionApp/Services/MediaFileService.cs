@@ -19,11 +19,12 @@ namespace EnterpriseServerless.FunctionApp.Services
 {
     public class MediaFileService : IMediaFileService
     {
-        private const string MrId = "mrid";
-        private const string MrsId = "mrsid";
-        private const string TenantId = "tenantId";
         private readonly ILogger<MediaFileService> _logger;
         private readonly IConfigurationRoot _configuration;
+
+        private const string FilePath = "filePath";
+        private const string MediaType = "mediaType";
+        private const string TenantId = "tenantId";
 
         public MediaFileService(
             ILogger<MediaFileService> log,
@@ -35,8 +36,12 @@ namespace EnterpriseServerless.FunctionApp.Services
 
         public async Task<IActionResult> GetMediaFileAsync(IQueryCollection query)
         {
-            if (query.Count() == 0 || 
-            (string.IsNullOrEmpty(query[MrId]) && string.IsNullOrEmpty(query[MrsId]) && string.IsNullOrEmpty(query[TenantId])))
+            var fileLink = query[query.Keys.Where(x => x.Contains(FilePath)).FirstOrDefault()];
+            var mediaType = query[query.Keys.Where(x => x.Contains(MediaType)).FirstOrDefault()];
+            var tenantId = query[query.Keys.Where(x => x.Contains(TenantId)).FirstOrDefault()];
+
+            if (query.Count() == 0 
+                || (string.IsNullOrEmpty(fileLink) && string.IsNullOrEmpty(mediaType) && string.IsNullOrEmpty(tenantId)))
             {
                 _logger.LogWarning("GetMediaFileAsync - Missing one or more query string parameters");
 
@@ -50,18 +55,9 @@ namespace EnterpriseServerless.FunctionApp.Services
 
             try
             {
-                var fileLink = string.Empty;
-                var mediaType = string.Empty;
-
-                if (!string.IsNullOrEmpty(query[MrId]))
-                {
-                    mediaType = "CallRecordNotificationFiles";
-                    fileLink = Encoding.UTF8.GetString(Base64UrlTextEncoder.Decode(query[MrId]));
-                }
-
-                var tenantId = query[TenantId];
+                fileLink = Encoding.UTF8.GetString(Base64UrlTextEncoder.Decode(query[query.Keys.Where(x => x.Contains(FilePath)).FirstOrDefault()]));
                 var relativeAddress = $"{tenantId}/{mediaType}";
-                var fileName = $@"{fileLink.Substring(0, 2)}/{fileLink}";
+                var fileName = $@"{fileLink.ToString().Substring(0, 2)}/{fileLink}";
                 var cloudFile = $"{relativeAddress}/{fileName}";
 
                 _logger.LogInformation($"Getting media file: '{cloudFile}' for organizationId: '{tenantId}' from storage account");
@@ -76,7 +72,7 @@ namespace EnterpriseServerless.FunctionApp.Services
                         Mode = RetryMode.Exponential,
                         MaxRetries = int.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageMaxRetries] ?? "3"),
                         Delay = TimeSpan.FromSeconds(double.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageDelayInSeconds] ?? "0.1")),
-                        MaxDelay = TimeSpan.FromSeconds(double.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageMaxDelayInSeconds] ?? "2"))
+                        MaxDelay = TimeSpan.FromSeconds(double.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageMaxDelayInSeconds] ?? "3"))
                     }
                 };
 
