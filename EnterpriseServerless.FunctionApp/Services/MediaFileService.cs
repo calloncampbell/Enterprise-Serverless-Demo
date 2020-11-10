@@ -6,6 +6,7 @@ using EnterpriseServerless.FunctionApp.ResponseModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,6 +22,7 @@ namespace EnterpriseServerless.FunctionApp.Services
     {
         private readonly ILogger<MediaFileService> _logger;
         private readonly IConfigurationRoot _configuration;
+        private readonly BlobContainerClient _blobContainerClient;
 
         private const string FilePath = "filePath";
         private const string MediaType = "mediaType";
@@ -28,10 +30,14 @@ namespace EnterpriseServerless.FunctionApp.Services
 
         public MediaFileService(
             ILogger<MediaFileService> log,
-            IConfigurationRoot configuration)
+            IConfigurationRoot configuration,
+            IAzureClientFactory<BlobServiceClient> blobClientFactory)
         {
             _logger = log;
             _configuration = configuration;
+
+            var blobServiceClient = blobClientFactory.CreateClient("Default");
+            _blobContainerClient = blobServiceClient.GetBlobContainerClient(Constants.StorageAccount.TwilioMediaFilesBlobContainer);
         }
 
         public async Task<IActionResult> GetMediaFileAsync(IQueryCollection query)
@@ -62,24 +68,26 @@ namespace EnterpriseServerless.FunctionApp.Services
 
                 _logger.LogInformation($"Getting media file: '{cloudFile}' for organizationId: '{tenantId}' from storage account");
 
-                // Optimize for Storage RS-GRS
-                var options = new BlobClientOptions
-                {
-                    Diagnostics = { IsLoggingEnabled = true },
-                    GeoRedundantSecondaryUri = new Uri(_configuration[Constants.StorageAccount.SecondaryConnectionUrl]),
-                    Retry =
-                    {
-                        Mode = RetryMode.Exponential,
-                        MaxRetries = int.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageMaxRetries] ?? "3"),
-                        Delay = TimeSpan.FromSeconds(double.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageDelayInSeconds] ?? "0.1")),
-                        MaxDelay = TimeSpan.FromSeconds(double.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageMaxDelayInSeconds] ?? "3"))
-                    }
-                };
+                //// Optimize for Storage RS-GRS
+                //var options = new BlobClientOptions
+                //{
+                //    Diagnostics = { IsLoggingEnabled = true },
+                //    GeoRedundantSecondaryUri = new Uri(_configuration[Constants.StorageAccount.SecondaryConnectionUrl]),
+                //    Retry =
+                //    {
+                //        Mode = RetryMode.Exponential,
+                //        MaxRetries = int.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageMaxRetries] ?? "3"),
+                //        Delay = TimeSpan.FromSeconds(double.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageDelayInSeconds] ?? "0.1")),
+                //        MaxDelay = TimeSpan.FromSeconds(double.Parse(_configuration[Constants.StorageAccount.GeoRedundantStorageMaxDelayInSeconds] ?? "3"))
+                //    }
+                //};
 
-                BlobClient blobClient = new BlobClient(_configuration[Constants.StorageAccount.ConnectionString], 
-                    Constants.StorageAccount.TwilioMediaFilesBlobContainer, 
-                    cloudFile, 
-                    options);
+                //BlobClient blobClient = new BlobClient(_configuration[Constants.StorageAccount.ConnectionString], 
+                //    Constants.StorageAccount.TwilioMediaFilesBlobContainer, 
+                //    cloudFile, 
+                //    options);
+
+                BlobClient blobClient = _blobContainerClient.GetBlobClient(cloudFile);
 
                 try
                 {
@@ -97,7 +105,7 @@ namespace EnterpriseServerless.FunctionApp.Services
                     _logger.LogError(ex2, $"General Exception - accessing media file: '{cloudFile}' \n{ex2.Message}");
                 }
 
-                throw new Exception("Unable to open file not streamed");
+                throw new Exception("Unable to open file for streaming");
             }
             catch (Exception ex)
             {

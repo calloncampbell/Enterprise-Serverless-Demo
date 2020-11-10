@@ -4,6 +4,7 @@ using EnterpriseServerless.FunctionApp.Services;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,13 +61,31 @@ namespace EnterpriseServerless.FunctionApp
                        // Configure to reload configuration if the registered 'Sentinel' key is modified
                        .ConfigureRefresh(refreshOptions =>
                             refreshOptions.Register(key: "EnterpriseServerless:Sentinel", label: LabelFilter.Null, refreshAll: true)
-                                          .SetCacheExpiration(TimeSpan.FromSeconds(30))
+                                          .SetCacheExpiration(TimeSpan.FromSeconds(120))
                        )
                        // Indicate to load feature flags
-                       .UseFeatureFlags();
+                       .UseFeatureFlags(flagOptions =>
+                       {                           
+                           flagOptions.CacheExpirationInterval = TimeSpan.FromSeconds(120);
+                       });
                 ConfigurationRefresher = options.GetRefresher();
             });
             Configuration = ConfigurationBuilder.Build();
+
+            // Singleton for the BlobServiceClient
+            builder.Services.AddAzureClients(builder =>
+            {
+                var storageConnectionString = Environment.GetEnvironmentVariable(Constants.StorageAccount.ConnectionString);
+                builder.AddBlobServiceClient(storageConnectionString)
+                       .ConfigureOptions(options =>
+                       {
+                           options.GeoRedundantSecondaryUri = new Uri(Environment.GetEnvironmentVariable(Constants.StorageAccount.SecondaryConnectionUrl));
+                           options.Retry.Mode = Azure.Core.RetryMode.Fixed;
+                           options.Retry.MaxRetries = int.Parse(Environment.GetEnvironmentVariable(Constants.StorageAccount.GeoRedundantStorageMaxRetries));
+                           options.Retry.Delay = TimeSpan.FromSeconds(double.Parse(Environment.GetEnvironmentVariable(Constants.StorageAccount.GeoRedundantStorageDelayInSeconds)));
+                           options.Retry.MaxDelay = TimeSpan.FromSeconds(double.Parse(Environment.GetEnvironmentVariable(Constants.StorageAccount.GeoRedundantStorageMaxDelayInSeconds)));
+                       });
+            });
 
             builder.Services.AddLogging();
             builder.Services.AddSingleton(Configuration);
