@@ -4,8 +4,13 @@
 @port = 7071
 @host = {{hostname}}:{{port}}
 
-### Welcome 
+### Welcome 1
 GET http://{{host}}/api/Welcome
 
-### Welcome 
+
+### Welcome 2
 GET https://func-enterpriseserverless-01-eastus2.azurewebsites.net/api/Welcome
+
+
+### Welcome 3
+GET https://fd-enterpriseserverless-01.azurefd.net/api/welcome
